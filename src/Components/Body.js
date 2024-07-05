@@ -17,8 +17,6 @@ const Body = () => {
     },
   ]);
 
-  // useEffect is used to check if user is signed in or not
-
   
   return (
     <div>
