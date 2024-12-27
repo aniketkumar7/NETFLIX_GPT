@@ -8,7 +8,7 @@ export const API_OPTIONS = {
   method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMGYyZDY0MWM5ZDlmNmUxZDc1YmUyMTFiY2ZhMjA1NSIsInN1YiI6IjY1OTZiMDQ3ZWEzN2UwMDg5YzRiY2Q3NyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.enTyphZN1g7k6Mzx3Ug4zrQQ0il8O3KwC11EuVRxNX8'
+    Authorization: 'Bearer eyJhbGciOiJIUzI1Ni'
   },
 };
 
@@ -23,4 +23,4 @@ export const SUPPORTED_LANGUAGES = [
   { identifier: "spanish", name: "Spanish" },
 ];
 
-export const OPENAI_KEY = "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";
+export const OPENAI_KEY = "";
