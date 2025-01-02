@@ -11,16 +11,14 @@ import { BG_URL, USER_AVATAR } from "../Utils/constant";
 const Login = () => {
   const [isSignInForm, setIsSignForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
-  
-  
+
   const dispatch = useDispatch();
 
-  
   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
-  
-  
+
+
 
   const handleButtonClick = () => {
 
@@ -72,8 +70,8 @@ const Login = () => {
           setErrorMessage(errorCode + ": " + errorMessage);
           // ..
         });
-    } 
-    
+    }
+
     else {
       // SignIn Logic
 
