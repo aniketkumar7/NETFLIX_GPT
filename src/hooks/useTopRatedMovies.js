@@ -33,3 +33,4 @@ const useTopRatedMovies = () => {
 };
 
 export default useTopRatedMovies;
+
