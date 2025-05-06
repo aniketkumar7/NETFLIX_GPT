@@ -1,26 +1,42 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTrendingMovies } from "../Utils/moviesSlice";
-import { API_OPTIONS } from "../Utils/constant";
+import { FETCH_OPTIONS } from "../Utils/constant";
 
 const useTrendingMovies = () => {
-  // Fetch Data from TMDB API and update store
   const dispatch = useDispatch();
 
-  const TrendingMovies = useSelector((store) => store.movies.popularMovies);
+  // Use store.movie (singular) not store.movies (plural)
+  const trendingMovies = useSelector((store) => store.movie?.trendingMovies);
 
   const getTrendingMovies = async () => {
-    const data = await fetch(
-      "https://api.themoviedb.org/3/trending/movie/day?&page=1",
-      API_OPTIONS
-    );
-    const json = await data.json();
-    dispatch(addTrendingMovies(json.results));
+    try {
+      const data = await fetch(
+        "https://api.themoviedb.org/3/trending/movie/week?&page=1",
+        FETCH_OPTIONS
+      );
+
+      if (!data.ok) {
+        throw new Error(`HTTP error! Status: ${data.status}`);
+      }
+
+      const json = await data.json();
+      dispatch(addTrendingMovies(json.results));
+      return "success";
+    } catch (error) {
+      console.error("Error fetching trending movies:", error);
+      return "error";
+    }
   };
 
   useEffect(() => {
-    !TrendingMovies && getTrendingMovies();
-  }, []);
+    if (!trendingMovies) {
+      getTrendingMovies();
+    }
+  }, [trendingMovies]);
+
+  // Return loading status to help with UI state management
+  return trendingMovies ? "success" : "loading";
 };
 
 export default useTrendingMovies;

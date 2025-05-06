@@ -4,22 +4,24 @@ export const LOGO =
 export const USER_AVATAR =
   "https://occ-0-6247-2164.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABdpkabKqQAxyWzo6QW_ZnPz1IZLqlmNfK-t4L1VIeV1DY00JhLo_LMVFp936keDxj-V5UELAVJrU--iUUY2MaDxQSSO-0qw.png?r=e6e";
 
-export const API_OPTIONS = {
-  method: 'GET',
+export const FETCH_OPTIONS = {
+  method: "GET",
   headers: {
-    accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1Ni'
+    accept: "application/json",
+    Authorization:
+      `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxOGUzODQ3OTJhZGQwMjM0ZTg3OTJlNmY4ODZmM2E0MyIsInN1YiI6IjY1YmJhODMwZDdjZDA2MDE3YjUzZmUwZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.t2kvw56lD3bpvsxIQitaTb0m99OfFyCSgs_zdzPeJrc`,
   },
 };
 
-export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w500";
+export const IMG_LINK = "https://image.tmdb.org/t/p/original";
 
 export const BG_URL =
   "https://assets.nflxext.com/ffe/siteui/vlv3/fc164b4b-f085-44ee-bb7f-ec7df8539eff/d23a1608-7d90-4da1-93d6-bae2fe60a69b/IN-en-20230814-popsignuptwoweeks-perspective_alpha_website_large.jpg";
 
-export const SUPPORTED_LANGUAGES = [
+export const MULTI_LANG = [
   { identifier: "en", name: "English" },
   { identifier: "hindi", name: "Hindi" },
+  { identifier: "marathi", name: "Marathi" },
   { identifier: "spanish", name: "Spanish" },
 ];
 

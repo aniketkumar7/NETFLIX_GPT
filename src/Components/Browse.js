@@ -1,37 +1,81 @@
-import React from "react";
-import Header from "./Header";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import useNowPlayingMovies from "../hooks/useNowPlayingMovies";
 import usePopularMovies from "../hooks/usePopularMovies";
-import SecondaryContainer from "./SecondaryContainer";
-import MainContainer from "./MainContainer";
 import useTopRatedMovies from "../hooks/useTopRatedMovies";
-import useUpcomingMovies from "../hooks/useUpcomingMovies";
 import useTrendingMovies from "../hooks/useTrendingMovies";
+import useUpcomingMovies from "../hooks/useUpcomingMovies";
+import Header from "./Header";
+import MainContainer from "./MainContainer";
+import SecondaryContainer from "./SecondaryContainer";
 import GptSearch from "./GptSearch";
-import { useSelector } from "react-redux";
+import { removegptMovieResult } from "../Utils/gptSlice";
 
 const Browse = () => {
-  
-  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
-  
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Load all movie data
   useNowPlayingMovies();
   usePopularMovies();
   useTopRatedMovies();
   useTrendingMovies();
   useUpcomingMovies();
-  
+
+  const gptview = useSelector((store) => store.gpt.gptSearchView);
+  const movies = useSelector((store) => store.movie);
+  const dispatch = useDispatch();
+
+  // Clear GPT results when switching to browse view
+  useEffect(() => {
+    if (!gptview) {
+      dispatch(removegptMovieResult());
+    }
+  }, [gptview, dispatch]);
+
+  // Set loading state based on movie data
+  useEffect(() => {
+    if (movies?.nowPlayingMovies) {
+      // Add a small delay for smoother transition
+      const timer = setTimeout(() => setIsLoading(false), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [movies]);
+
+  // Prevent body scrolling when needed
+  useEffect(() => {
+    // Add overflow-hidden to body to prevent any potential horizontal scrolling
+    document.body.style.overflowX = "hidden";
+
+    return () => {
+      // Clean up when component unmounts
+      document.body.style.overflowX = "";
+    };
+  }, []);
+
   return (
-    <div>
+    <div className="text-white min-h-screen bg-black overflow-x-hidden w-full relative">
       <Header />
-      {showGptSearch ? (
-        <GptSearch />
+
+      {isLoading ? (
+        <div className="flex items-center justify-center h-screen">
+          <div className="animate-pulse text-red-600 text-xl">Loading amazing content...</div>
+        </div>
       ) : (
-        <>
-          <MainContainer />
-          <SecondaryContainer />
-        </>
+        <div className="w-full">
+          {gptview ? (
+            <div className="pt-16 md:pt-20 px-4 max-w-screen-2xl mx-auto">
+              <GptSearch />
+            </div>
+          ) : (
+            <>
+              <MainContainer />
+              <SecondaryContainer />
+            </>
+          )}
+        </div>
       )}
     </div>
   );
 };
+
 export default Browse;

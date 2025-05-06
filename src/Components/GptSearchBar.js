@@ -2,8 +2,8 @@ import openai from "../Utils/openai.js";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import lang from "../Utils/languageConstants";
-import { API_OPTIONS } from "../Utils/constant";
-import { addGptMovieResult } from "../Utils/gptSlice";
+import { FETCH_OPTIONS } from "../Utils/constant";
+import { addgptMovieReult } from "../Utils/gptSlice";
 
 const GptSearchBar = () => {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const GptSearchBar = () => {
       "https://api.themoviedb.org/3/search/movie?query=" +
         movie +
         "&include_adult=false&language=en-US&page=1",
-      API_OPTIONS
+      FETCH_OPTIONS
     );
     const json = await data.json();
 
@@ -55,12 +55,12 @@ const GptSearchBar = () => {
 
     const tmdbResults = await Promise.all(promiseArray);
     // Promise.all() will wait for all the promises to resolve and then return an array of the resolved values. In this case, it will return an array of arrays, where each inner array contains the results for one movie. So, we can access the results like this: tmdbResults[0][0] will give the first movie result
-    
+
     console.log(tmdbResults);
 
     // dispatch function will update the store with the results
     dispatch(
-      addGptMovieResult({ movieNames: gptMovies, movieResults: tmdbResults })
+      addgptMovieReult({ movieNames: gptMovies, movieResults: tmdbResults })
     );
   };
 

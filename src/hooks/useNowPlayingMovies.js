@@ -1,28 +1,35 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addNowPlayingMovies } from "../Utils/moviesSlice";
-import { API_OPTIONS } from "../Utils/constant";
+import { addnowPlayingMovies } from "../Utils/moviesSlice";
+import { FETCH_OPTIONS } from "../Utils/constant";
 
 const useNowPlayingMovies = () => {
-  // Fetch Data from TMDB API and update store
   const dispatch = useDispatch();
-
-  const nowPlayingMovies = useSelector(
-    (store) => store.movies.nowPlayingMovies
-  );
+  const nowPlayingMovies = useSelector((store) => store.movie?.nowPlayingMovies);
 
   const getNowPlayingMovies = async () => {
-    const data = await fetch(
-      "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
-      API_OPTIONS
-    );
-    const json = await data.json();
-    dispatch(addNowPlayingMovies(json.results));
+    try {
+      const data = await fetch(
+        "https://api.themoviedb.org/3/movie/now_playing",
+        FETCH_OPTIONS
+      );
+
+      if (!data.ok) {
+        throw new Error(`HTTP error! Status: ${data.status}`);
+      }
+
+      const json = await data.json();
+      dispatch(addnowPlayingMovies(json.results));
+    } catch (error) {
+      console.error("Error fetching now playing movies:", error);
+    }
   };
 
   useEffect(() => {
-    !nowPlayingMovies && getNowPlayingMovies();
-  }, []);
+    if (!nowPlayingMovies) {
+      getNowPlayingMovies();
+    }
+  }, [nowPlayingMovies]);
 };
 
 export default useNowPlayingMovies;
